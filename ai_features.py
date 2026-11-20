@@ -1,6 +1,6 @@
-
 import os
 import json
+import streamlit as st
 from dotenv import load_dotenv
 from google import genai
 
@@ -9,8 +9,14 @@ load_dotenv()
 API_KEY = os.getenv("GEMINI_API_KEY")
 
 if not API_KEY:
+    try:
+        API_KEY = st.secrets["GEMINI_API_KEY"]
+    except Exception:
+        API_KEY = None
+
+if not API_KEY:
     raise ValueError(
-        "Gemini API key .env file mein nahi mili!"
+        "Gemini API key nahi mili! Local ke liye .env aur Cloud ke liye Streamlit Secrets check karo."
     )
 
 client = genai.Client(api_key=API_KEY)
@@ -50,11 +56,11 @@ def generate_easy_notes(text):
     Convert this document into easy study notes.
 
     Requirements:
-    1. Use simple English.
-    2. Use clear headings.
-    3. Explain important points.
-    4. Use bullet points.
-    5. Keep the original meaning.
+1. Use simple English.
+2. Use clear headings.
+3. Explain important points.
+4. Use bullet points.
+5. Keep the original meaning.
 
     Document:
     {text}
@@ -73,11 +79,11 @@ def generate_quiz(text):
     Create 10 multiple choice questions from this document.
 
     Requirements:
-    1. Give 4 options: A, B, C and D.
-    2. Give only one correct answer.
-    3. Show the correct answer.
-    4. Give a short explanation.
-    5. Use simple English.
+1. Give 4 options: A, B, C and D.
+2. Give only one correct answer.
+3. Show the correct answer.
+4. Give a short explanation.
+5. Use simple English.
 
     Document:
     {text}
@@ -137,13 +143,13 @@ def generate_ppt_content(text):
     }}
 
     Requirements:
-    1. Create 6 to 8 slides.
-    2. Include an introduction.
-    3. Cover important topics.
-    4. Use simple English.
-    5. Include a conclusion slide.
-    6. Each slide should have 3 to 5 short points.
-    7. Do not include markdown code fences.
+1. Create 6 to 8 slides.
+2. Include an introduction.
+3. Cover important topics.
+4. Use simple English.
+5. Include a conclusion slide.
+6. Each slide should have 3 to 5 short points.
+7. Do not include markdown code fences.
 
     Document:
     {text}

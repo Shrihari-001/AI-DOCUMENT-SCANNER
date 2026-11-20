@@ -1,1 +1,10 @@
+streamlit
+opencv-python-headless
+numpy
+pillow
+pytesseract
+pymupdf
+pypdf
+python-pptx
+google-genai
 python-dotenv
